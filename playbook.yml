@@ -10,6 +10,6 @@
     # module pour copier un fichier
     - name: file copy
       copy:
-        src: /Desktop/FORMATION/Kubernetes/exercices/ex8-CORRECTION/TPDocker/correction-kubernetes/result
-        dest: /Desktop/FORMATION/Ansible/ex2
+        src: docs/
+        dest: /docs
     
