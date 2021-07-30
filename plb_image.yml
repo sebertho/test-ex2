@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: creer les dossiers recepteurs
+      file:
+        path: /{{item}}
+        state: directory
+        mode: '0755'
+      loop:
+        - vote 
+        - worker
+        - result
+    - name: copier les dossiers avec Dockerfile
+      copy:
+        src: ./{{item}}/
+        dest: /{{item}}/
+      loop:
+        - vote 
+        - worker
+        - result
+    - name: build container image
+      docker_image:
+        name: image-{{item}}
+        build:
+          path: /{{item}}
+          source: build
+          state: present
+        loop:
+          - vote 
+          - worker
+          - result
