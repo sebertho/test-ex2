@@ -60,5 +60,5 @@
       name: result_image
       build:
         path: /docs/result/Dockerfile
-        source: build
+        state: build
       state: present
