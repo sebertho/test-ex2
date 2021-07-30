@@ -54,3 +54,11 @@
      name: docker
      state: started
      enabled: true
+  
+  - name: build container image de result
+    docker_image:
+      name: result_image
+      build:
+        path: /docs/result/Dockerfile
+        source: build
+      state: present
