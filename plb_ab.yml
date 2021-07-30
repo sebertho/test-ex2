@@ -5,8 +5,12 @@
     - name: suppression du truc
       file:
         state: absent
-        path: ./{{item}}
-        loop:
-          - vote 
-          - worker
-          - result
+        path: ./vote
+    - name: suppression du truc
+      file:
+        state: absent
+        path: ./worker
+    - name: suppression du truc
+      file:
+        state: absent
+        path: ./result
