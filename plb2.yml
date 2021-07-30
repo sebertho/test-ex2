@@ -3,30 +3,58 @@
 - hosts: all 
   become: true 
   tasks:
-  # - name: Update the apt package index
-  #   become: yes
-  #   apt:
-  #     name: "*"
-  #     state: latest
-  #     update_cache: yes
-  #     force_apt_get: yes
+  - name: Update the apt package index
+    become: yes
+    apt:
+      name: "*"
+      state: latest
+      update_cache: yes
+      force_apt_get: yes
+    when: ansible_facts['os_user'] == "Debian"
+  - name: Update the yum package index
+    become: yes
+    yum:
+      name: "*"
+      state: latest
+      update_cache: yes
+      force_apt_get: yes
+    when: ansible_facts['os_user'] == "CentOS"
 
-  # - name: Install packages for apt add repository over HTTPS
-  #   become: yes
-  #   apt:
-  #     name: "{{ packagesdep }}"
-  #     force_apt_get: yes
-  #     state: latest
-  #     update_cache: yes
-  #   vars:
-  #     packagesdep:
-  #     - git
-  #     - apt-transport-https
-  #     - ca-certificates
-  #     - wget
-  #     - software-properties-common
-  #     - gnupg2
-  #     - curl
+
+  - name: Install packages for apt add repository over HTTPS
+    become: yes
+    apt:
+      name: "{{ packagesdep }}"
+      force_apt_get: yes
+      state: latest
+      update_cache: yes
+    vars:
+      packagesdep:
+      - git
+      - apt-transport-https
+      - ca-certificates
+      - wget
+      - software-properties-common
+      - gnupg2
+      - curl
+    when: ansible_facts['os_user'] == "Debian"
+  - name: Install packages for yum add repository over HTTPS
+    become: yes
+    yum:
+      name: "{{ packagesdep }}"
+      force_apt_get: yes
+      state: latest
+      update_cache: yes
+    vars:
+      packagesdep:
+      - git
+      - apt-transport-https
+      - ca-certificates
+      - wget
+      - software-properties-common
+      - gnupg2
+      - curl
+    when: ansible_facts['os_user'] == "CentOS"
 
   - name: Add Apt signing key from official docker repo
     apt_key:
@@ -36,18 +64,33 @@
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
       state: present
-  # - name: Index new repo into the cache
-  #   become: yes
-  #   apt:
-  #     name: "*"
-  #     state: latest
-  #     update_cache: yes
-  #     force_apt_get: yes
+  - name: Index new repo into the cache
+    become: yes
+    apt:
+      name: "*"
+      state: latest
+      update_cache: yes
+      force_apt_get: yes
+    when: ansible_facts['os_user'] == "Debian"
+  - name: Index new repo into the cache yum
+    become: yes
+    yum:
+      name: "*"
+      state: latest
+      update_cache: yes
+      force_apt_get: yes
+    when: ansible_facts['os_user'] == "CentOS"
 
   - name: actually install docker
     apt:
       name: "docker-ce"
       state: latest
+    when: ansible_facts['os_user'] == "Debian"
+  - name: actually install docker yum
+    yum:
+      name: "docker-ce"
+      state: latest
+    when: ansible_facts['os_user'] == "CentOS"
   
   - name: Run and enable docker
     service:
