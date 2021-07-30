@@ -36,13 +36,13 @@
     apt_repository:
       repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
       state: present
-  - name: Index new repo into the cache
-    become: yes
-    apt:
-      name: "*"
-      state: latest
-      update_cache: yes
-      force_apt_get: yes
+  # - name: Index new repo into the cache
+  #   become: yes
+  #   apt:
+  #     name: "*"
+  #     state: latest
+  #     update_cache: yes
+  #     force_apt_get: yes
 
   - name: actually install docker
     apt:
