@@ -26,7 +26,7 @@
           path: /{{item}}
           source: build
           state: present
-        loop:
-          - vote 
-          - worker
-          - result
+      loop:
+        - vote 
+        - worker
+        - result
