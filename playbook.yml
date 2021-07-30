@@ -15,12 +15,12 @@
   
   # Ajouter la cle gpg pour la securite des echanges avec le serveur des packages docker
   - name: ajout de la cle gpg
-    apt-key:
+    apt_key:
       url: https://download.docker.com/linux/debian/gpg
   
   # ajouter le repos pour chercher les packages de docker
   - name: Ajout de l'adresse du repos pour les packages docker de debian
-    apt-repository:
+    apt_repository:
       repo: deb https://download.docker.com/linux/debian bionic stable
   
   # installation des composants docker
