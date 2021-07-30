@@ -1,13 +1,13 @@
 ---
 - hosts: all
   tasks:
-  - name: Update the apt package index
-    become: yes
-    apt:
-      name: "*"
-      state: latest
-      update_cache: yes
-      force_apt_get: yes
+  # - name: Update the apt package index
+  #   become: yes
+  #   apt:
+  #     name: "*"
+  #     state: latest
+  #     update_cache: yes
+  #     force_apt_get: yes
   - name: Install packages for apt add repository over HTTPS
     become: yes
     apt:
