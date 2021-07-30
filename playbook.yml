@@ -2,50 +2,79 @@
 - hosts: all
   become: true
   tasks:
-  - name: Update the apt package index
-    become: yes
+  - name: Installation packages pour docker
     apt:
-      name: "*"
-      state: latest
+      name:
+        - apt-transport-https
+        - ca-certificates
+        - curl 
+        - gnupg 
+        - lsb-release
       update_cache: yes
-      force_apt_get: yes
-  - name: Install packages for apt add repository over HTTPS
-    become: yes
-    apt:
-      name: "{{ packagesdep }}"
-      force_apt_get: yes
-      state: latest
-      update_cache: yes
-    vars:
-      packagesdep:
-      - git
-      - apt-transport-https
-      - ca-certificates
-      - wget
-      - software-properties-common
-      - gnupg2
-      - curl
-  - name: Add Apt signing key from official docker repo
-    apt_key:
+
+  # ajouter la cle gpg necessaire 
+  - name: Ajout cle gng 
+    apt-key: 
       url: https://download.docker.com/linux/debian/gpg
-      state: present
-  - name: add docker official repository for Debian Stretch
-    apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
-      state: present
-  - name: Index new repo into the cache
-    become: yes
-    apt:
-      name: "*"
-      state: latest
-      update_cache: yes
-      force_apt_get: yes
-  - name: actually install docker
-    apt:
-      name: "docker-ce"
-      state: latest
-  - name: file copy
-    copy:
-      src: docs/
-      dest: /docs
+      
+  # ajout repos pour chercher les packages dans docker
+  - name: Ajout de l'adresse du repos pour les packages docker de Debian
+    apt-repository:
+      repo: deb https://download.docker.com/linux/debian bionic stable
+
+  # Instalation Docker 
+  - name: Installation de Docker
+    apt: 
+      name:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+
+
+  # - name: Update the apt package index
+  #   become: yes
+  #   apt:
+  #     name: "*"
+  #     state: latest
+  #     update_cache: yes
+  #     force_apt_get: yes
+  # - name: Install packages for apt add repository over HTTPS
+  #   become: yes
+  #   apt:
+  #     name: "{{ packagesdep }}"
+  #     force_apt_get: yes
+  #     state: latest
+  #     update_cache: yes
+  #   vars:
+  #     packagesdep:
+  #     - git
+  #     - apt-transport-https
+  #     - ca-certificates
+  #     - wget
+  #     - software-properties-common
+  #     - gnupg2
+  #     - curl
+  # - name: Add Apt signing key from official docker repo
+  #   apt_key:
+  #     url: https://download.docker.com/linux/debian/gpg
+  #     state: present
+  # - name: add docker official repository for Debian Stretch
+  #   apt_repository:
+  #     repo: deb [arch=amd64] https://download.docker.com/linux/debian stretch stable
+  #     state: present
+  # - name: Index new repo into the cache
+  #   become: yes
+  #   apt:
+  #     name: "*"
+  #     state: latest
+  #     update_cache: yes
+  #     force_apt_get: yes
+  # - name: actually install docker
+  #   apt:
+  #     name: "docker-ce"
+  #     state: latest
+  # - name: file copy
+  #   copy:
+  #     src: docs/
+  #     dest: /docs
     
