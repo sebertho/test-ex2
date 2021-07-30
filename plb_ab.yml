@@ -5,12 +5,12 @@
     - name: suppression du truc
       file:
         state: absent
-        path: ./vote
+        path: /vote
     - name: suppression du truc
       file:
         state: absent
-        path: ./worker
+        path: /worker
     - name: suppression du truc
       file:
         state: absent
-        path: ./result
+        path: /result
