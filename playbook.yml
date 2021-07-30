@@ -1,8 +1,9 @@
 ---
+
 - hosts: all
   become: true
   tasks:
-  - name: Installation packages pour docker
+  - name: Installation des packages de base pour docker
     apt:
       name:
         - apt-transport-https
@@ -11,20 +12,20 @@
         - gnupg 
         - lsb-release
       update_cache: yes
-
-  # ajouter la cle gpg necessaire 
-  - name: Ajout cle gng 
-    apt-key: 
+  
+  # Ajouter la clé gpg pour la sécurité des échanges avec le serveur des packages docker
+  - name : ajout de la cle gpg
+    apt-key:
       url: https://download.docker.com/linux/debian/gpg
-      
-  # ajout repos pour chercher les packages dans docker
-  - name: Ajout de l'adresse du repos pour les packages docker de Debian
+  
+  # ajouter le repos pour chercher les packages de docker
+  - name: Ajout de l'adresse du repos pour les packages docker de debian
     apt-repository:
       repo: deb https://download.docker.com/linux/debian bionic stable
-
-  # Instalation Docker 
-  - name: Installation de Docker
-    apt: 
+  
+  # installation des composants docker
+  - name: install docker components
+    apt:
       name:
         - docker-ce
         - docker-ce-cli
