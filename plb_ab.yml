@@ -7,6 +7,6 @@
         state: absent
         path: ./{{item}}
         loop:
-        - vote 
-        - worker
-        - result
+          - vote 
+          - worker
+          - result
