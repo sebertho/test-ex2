@@ -10,7 +10,7 @@
       state: latest
       update_cache: yes
       force_apt_get: yes
-    when: ansible_facts['os_user'] == "Debian"
+    when: ansible_facts['os_family'] == "Debian"
   - name: Update the yum package index
     become: yes
     yum:
@@ -18,7 +18,7 @@
       state: latest
       update_cache: yes
       force_apt_get: yes
-    when: ansible_facts['os_user'] == "CentOS"
+    when: ansible_facts['os_family'] == "RedHat"
 
 
   - name: Install packages for apt add repository over HTTPS
@@ -37,7 +37,7 @@
       - software-properties-common
       - gnupg2
       - curl
-    when: ansible_facts['os_user'] == "Debian"
+    when: ansible_facts['os_family'] == "Debian"
   - name: Install packages for yum add repository over HTTPS
     become: yes
     yum:
@@ -54,7 +54,7 @@
       - software-properties-common
       - gnupg2
       - curl
-    when: ansible_facts['os_user'] == "CentOS"
+    when: ansible_facts['os_family'] == "RedHat"
 
   - name: Add Apt signing key from official docker repo
     apt_key:
@@ -71,7 +71,7 @@
       state: latest
       update_cache: yes
       force_apt_get: yes
-    when: ansible_facts['os_user'] == "Debian"
+    when: ansible_facts['os_family'] == "Debian"
   - name: Index new repo into the cache yum
     become: yes
     yum:
@@ -79,18 +79,18 @@
       state: latest
       update_cache: yes
       force_apt_get: yes
-    when: ansible_facts['os_user'] == "CentOS"
+    when: ansible_facts['os_family'] == "RedHat"
 
   - name: actually install docker
     apt:
       name: "docker-ce"
       state: latest
-    when: ansible_facts['os_user'] == "Debian"
+    when: ansible_facts['os_family'] == "Debian"
   - name: actually install docker yum
     yum:
       name: "docker-ce"
       state: latest
-    when: ansible_facts['os_user'] == "CentOS"
+    when: ansible_facts['os_family'] == "RedHat"
   
   - name: Run and enable docker
     service:
