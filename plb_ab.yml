@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: suppression du truc
+      file:
+        state: absent
+        path: ./{{item}}
+        loop:
+        - vote 
+        - worker
+        - result
